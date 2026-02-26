@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WebRTC Video Enhancement Demo</title>
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/components.css">
+    <link rel="stylesheet" href="css/tables.css">
+</head>
+<body>
+    <!-- Main Application Container -->
+    <main class="app-container">
+        <!-- Configuration Panel -->
+        <section class="config-panel">
+            <header class="panel-header">
+                <h1>WebRTC Configuration</h1>
+            </header>
+
+            <div class="config-grid">
+                <!-- Video Settings -->
+                <fieldset class="config-group">
+                    <legend>Video Settings</legend>
+                    
+                    <div class="form-group">
+                        <label for="video-codec">Video Codec:</label>
+                        <select id="video-codec" class="form-select">
+                            <option value="H264/90000" selected>H264</option>
+                            <option value="VP8/90000">VP8</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="video-selection">Input Video:</label>
+                        <select id="video-selection" class="form-select">
+                            <option value="TalkingHeads.mp4">Talking Heads</option>
+                            <option value="BigBuckBunny.mp4">Big Buck Bunny</option>
+                            <option value="ElephantDreams.mp4">Elephant Dreams</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="video-resolution">Input Resolution:</label>
+                        <select id="video-resolution" class="form-select" onchange="updateVideos()">
+                            <option value="270p">480x270</option>
+                        </select>
+                    </div>
+                </fieldset>
+
+                <!-- Processing Settings -->
+                <fieldset class="config-group">
+                    <legend>Processing Settings</legend>
+                    
+                    <div class="form-group">
+                        <label for="backend">Backend:</label>
+                        <select id="backend" class="form-select">
+                            <option value="webgpu">WebGPU</option>
+                            <option value="webgl">WebGL</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="architecture">Architecture:</label>
+                        <select id="architecture" class="form-select">
+                            <option value="SingleThread">Single-Threaded</option>
+                            <option value="MultiThread">Multi-Threaded</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="scale">Scale Factor:</label>
+                        <select id="scale" class="form-select" onchange="updateModels()">
+                            <option value="2">2x</option>
+                            <option value="3">3x</option>
+                            <option value="4" selected>4x</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="model-name">Model:</label>
+                        <select id="model-name" class="form-select"></select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="interval">Processing Interval:</label>
+                        <select id="interval" class="form-select">
+                            <option value="200">200ms</option>
+                            <option value="500">500ms</option>
+                            <option value="1000">1000ms</option>
+                        </select>
+                    </div>
+                </fieldset>
+
+                <!-- Connection Settings -->
+                <fieldset class="config-group">
+                    <legend>Connection Settings</legend>
+                    
+                    <div class="form-group checkbox-group">
+                        <input id="use-stun" type="checkbox" checked class="form-checkbox">
+                        <label for="use-stun">Use STUN server</label>
+                    </div>
+
+                    <div class="form-group checkbox-group">
+                        <input id="save-frame" type="checkbox" class="form-checkbox">
+                        <label for="save-frame">Save Frames</label>
+                    </div>
+                    <div class="form-group checkbox-group">
+                        <input id="send-metrics" type="checkbox" class="form-checkbox">
+                        <label for="send-metrics">Send Metrics</label>
+                    </div>
+                    <div class="form-group checkbox-group">
+                        <input id="toggle-lowres" type="checkbox" class="form-checkbox" aria-controls="media-section">
+                        <label for="toggle-lowres">Show Low-Res Video</label>
+                    </div>
+
+                </fieldset>
+            </div>
+
+            <div class="control-buttons">
+                <button id="setup-button" class="btn btn-primary">Setup Environment</button>
+                <button id="start-button" class="btn btn-success" onclick="start()" disabled>Start</button>
+                <button id="stop-button" class="btn btn-danger" style="display: none" onclick="stop()">Stop</button>
+            </div>
+        </section>
+
+        <!-- Statistics Section -->
+        <section id="webrtc-stats-section" class="stats-section webrtc-stats-section" hidden>
+            <h2>Real-time Network Metrics</h2>
+            
+            <!-- WebRTC Statistics Table -->
+            <div class="stats-table-container">
+                <h3>WebRTC Statistics</h3>
+                <table class="stats-table units" id="webrtc-stats-table">
+                    <thead>
+                        <tr>
+                            <th>Jitter</th>
+                            <th>Freeze Count</th>
+                            <th>Total Freezes Duration</th>
+                            <th>Frames Decoded</th>
+                            <th>FPS</th>
+                            <th>Packets Lost</th>
+                            <th>End To End Latency</th>
+                            <!-- <th>Total Decode Time</th>
+                            <th>Total Processing Delay</th> -->
+                            <th>Bandwidth</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                            <tr>
+                                <td id="jitter" data-unit="ms">N/A</td>
+                                <td id="freeze-count" data-unit="#">N/A</td>
+                                <td id="total-freeze-time" data-unit="s">N/A</td>
+                                <td id="frames-decoded" data-unit="#">N/A</td>
+                                <td id="frames-per-second" data-unit="">N/A</td>
+                                <td id="packets-lost" data-unit="%">N/A</td>
+                                <td id="End-to-End-Latency" data-unit="ms">N/A</td>
+                                <td id="bandwidth" data-unit="Mbps">N/A</td>
+                            </tr>
+                            </tbody>
+                </table>
+            </div>
+        </section>    
+
+        <section id="stats-section" class="stats-section" hidden>
+            <!-- Processing Statistics -->
+            <div class="stats-table-container" id="processing-stats" hidden>
+                <h3>Per-Stage Runtime</h3>
+                <table class="stats-table units" id="processing-stats-table">
+                    <thead>
+                        <tr>
+                            <th>Stage</th>
+                            <th>SR Frames</th>
+                            <th>Cold Start</th>
+                            <th>Average</th>
+                            <th>Median</th>
+                            <th>Min</th>
+                            <th>Max</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Chart Visualization -->
+            <div class="chart-container">
+                <h3>Statistics Chart</h3>
+                <div class="chart-controls">
+                    <!-- <label for="stat-chart">Select Statistic:</label> -->
+                    <select id="stat-chart" class="form-select">
+                        <option value="" disabled selected>Choose a statistic</option>
+                        <option value="jitter">Jitter</option>
+                        <option value="freezeCount">Freeze Count</option>
+                        <option value="totalFreezeTime">Total Freeze Duration</option>
+                        <option value="framesDecoded">Frames Decoded</option>
+                        <option value="framesPerSecond">Frames Per Second</option>
+                        <option value="packetsLost">Packets Lost</option>
+                        <option value="EndtoEndLatency">End to End Latency</option>
+                        <!-- <option value="totalDecodeTime">Total Decode Time</option>
+                        <option value="totalProcessingDelay">Total Processing Delay</option> -->
+                        <option value="bandwidth">Bandwidth</option>
+                    </select>
+                </div>
+                <canvas id="stats-chart" class="stats-chart"></canvas>
+            </div>
+        </section>
+
+        <!-- Status Panel -->
+        <aside class="status-panel" hidden>
+            <h2>Connection Status</h2>
+            
+            <div class="status-group">
+                <div class="status-item">
+                    <span class="status-label">ICE Gathering:</span>
+                    <span id="ice-gathering-state" class="status-value">-</span>
+                </div>
+                <div class="status-item">
+                    <span class="status-label">ICE Connection:</span>
+                    <span id="ice-connection-state" class="status-value">-</span>
+                </div>
+                <div class="status-item">
+                    <span class="status-label">Signaling:</span>
+                    <span id="signaling-state" class="status-value">-</span>
+                </div>
+                <div class="status-item">
+                    <span class="status-label">Datachannel Ping:</span>
+                    <span id="ping" class="status-value">-</span>
+                </div>
+
+            </div>
+
+            <div class="transmission-status">
+                <h3>Transmission Status</h3>
+                <pre id="transmission-status"></pre>
+            </div>
+
+            <div class="data-channel-log">
+                <h3>Data Channel</h3>
+                <pre id="data-channel"></pre>
+            </div>
+        </aside>
+
+        <!-- Media Display -->
+        <section id="media-section" class="media-section" style="display: none">
+             <h2>Low Resolution Video</h2>
+            <div class="media-container">
+                <audio id="audio" autoplay class="media-audio"></audio>
+                <video id="video" autoplay playsinline muted class="media-video"></video>
+            </div>
+        </section>
+
+        <!-- Output Canvas -->
+        <section class="output-section">
+            <h2>Super-Resolution Video</h2>
+            <canvas id="output-canvas" class="output-canvas"></canvas>
+        </section>
+
+        <!-- SDP Information (Collapsible) -->
+        <details class="sdp-section" hidden>
+            <summary>SDP Information</summary>
+            <div class="sdp-container">
+                <div class="sdp-block">
+                    <h4>Offer</h4>
+                    <pre id="offer-sdp" class="sdp-content"></pre>
+                </div>
+                <div class="sdp-block">
+                    <h4>Answer</h4>
+                    <pre id="answer-sdp" class="sdp-content"></pre>
+                </div>
+            </div>
+        </details>
+    </main>
+
+    <!-- JavaScript Dependencies -->
+    <script src="Packages/Stats.min.js"></script>
+    <script src="Packages/tfjs-core"></script>
+    <script src="Packages/tfjs-converter"></script>
+    <script src="Packages/tfjs-backend-webgl.js"></script>
+    <script src="Packages/tfjs-backend-webgpu.js"></script>
+    <script src="Packages/chart.js"></script>
+    
+    <!-- Application Scripts -->
+    <script src="StepTimesDB.js"></script>
+    <script src="InstrumentedTransformStream.js"></script>
+    <script src="WebGPUUtils/gpu-shaders.js"></script>
+    <script src="WebGLUtils/gl-class.js"></script>
+    <script src="WebGLUtils/gl-shaders.js"></script>
+    <script src="WebGLUtils/gl-util.js"></script>
+    <script src="WebGLUtils/ui-util.js"></script>
+    <script src="client.js"></script>
+</body>
+</html>

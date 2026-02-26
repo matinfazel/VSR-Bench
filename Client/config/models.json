@@ -1,0 +1,12 @@
+{
+  "modelsByScale": {
+    "2": ["Bilinear"],
+    "3": ["Bilinear"],
+    "4": ["Bilinear", "XiaomiMM", "Cao Group", "Supersr", "LVTeam", "BSR"]
+  },
+  "defaultModelByScale": {
+    "2": "Bilinear",
+    "3": "Bilinear",
+    "4": "XiaomiMM"
+  }
+}

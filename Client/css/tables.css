@@ -1,0 +1,291 @@
+/* ===== TABLE COMPONENTS ===== */
+.stats-table-container {
+    margin-bottom: var(--space-6);
+    overflow-x: auto;
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-sm);
+    background: white;
+}
+
+.stats-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.875rem;
+    background-color: white;
+}
+
+.stats-table thead {
+    background-color: var(--gray-100);
+    border-bottom: 2px solid var(--gray-200);
+}
+
+.stats-table th {
+    padding: var(--space-3) var(--space-4);
+    text-align: left;
+    font-weight: 600;
+    color: var(--gray-700);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    font-size: 1.1rem;/*0.75*/
+    white-space: nowrap;
+}
+
+.stats-table td {
+    padding: var(--space-3) var(--space-4);
+    border-bottom: 1px solid var(--gray-200);
+    color: var(--gray-800);
+    font-family: var(--font-mono);
+    font-size: 1.15rem;/*0.8*/
+    white-space: nowrap;
+}
+
+.stats-table tbody tr:hover {
+    background-color: var(--gray-50);
+}
+
+.stats-table tbody tr:last-child td {
+    border-bottom: none;
+}
+
+/* Special table cell types */
+.stats-table .numeric {
+    text-align: right;
+    font-variant-numeric: tabular-nums;
+}
+
+.stats-table .status-cell {
+    font-family: var(--font-sans);
+}
+
+.stats-table .status-cell.good {
+    color: var(--success-color);
+    font-weight: 600;
+}
+
+.stats-table .status-cell.warning {
+    color: var(--warning-color);
+    font-weight: 600;
+}
+
+.stats-table .status-cell.error {
+    color: var(--danger-color);
+    font-weight: 600;
+}
+
+/* ===== RESPONSIVE TABLE BEHAVIOR ===== */
+@media (max-width: 768px) {
+    .stats-table-container {
+        border-radius: 0;
+        margin-left: calc(-1 * var(--space-4));
+        margin-right: calc(-1 * var(--space-4));
+    }
+    
+    .stats-table th,
+    .stats-table td {
+        padding: var(--space-2) var(--space-3);
+        font-size: 0.85rem;
+    }
+    
+    .stats-table th {
+        font-size: 0.7rem;
+    }
+}
+
+/* ===== CHART COMPONENTS ===== */
+.chart-container {
+    margin-top: var(--space-6);
+    padding: var(--space-4);
+    background: white;
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-sm);
+}
+
+.chart-controls {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    margin-bottom: var(--space-4);
+    flex-wrap: wrap;
+}
+
+.chart-controls label {
+    font-weight: 500;
+    color: var(--gray-700);
+    white-space: nowrap;
+}
+
+.stats-chart {
+    width: 100%;
+    max-height: 400px;
+    border-radius: var(--radius-md);
+}
+
+/* ===== COMPACT TABLE VARIANT ===== */
+.stats-table.compact {
+    font-size: 0.8rem;
+}
+
+.stats-table.compact th,
+.stats-table.compact td {
+    padding: var(--space-2) var(--space-3);
+}
+
+.stats-table.compact th {
+    font-size: 0.7rem;
+}
+
+/* ===== STRIPED TABLE VARIANT ===== */
+.stats-table.striped tbody tr:nth-child(odd) {
+    background-color: var(--gray-25, #fdfdfd);
+}
+
+.stats-table.striped tbody tr:nth-child(even) {
+    background-color: white;
+}
+
+.stats-table.striped tbody tr:hover {
+    background-color: var(--gray-100) !important;
+}
+
+/* ===== BORDERED TABLE VARIANT ===== */
+.stats-table.bordered {
+    border: 1px solid var(--gray-200);
+}
+
+.stats-table.bordered th,
+.stats-table.bordered td {
+    border-right: 1px solid var(--gray-200);
+}
+
+.stats-table.bordered th:last-child,
+.stats-table.bordered td:last-child {
+    border-right: none;
+}
+
+/* ===== TABLE UTILITIES ===== */
+.table-responsive {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+}
+
+.table-fixed {
+    table-layout: fixed;
+}
+
+.table-auto {
+    table-layout: auto;
+}
+
+/* Column width utilities */
+.col-auto { width: auto; }
+.col-1 { width: 8.333333%; }
+.col-2 { width: 16.666667%; }
+.col-3 { width: 25%; }
+.col-4 { width: 33.333333%; }
+.col-5 { width: 41.666667%; }
+.col-6 { width: 50%; }
+.col-7 { width: 58.333333%; }
+.col-8 { width: 66.666667%; }
+.col-9 { width: 75%; }
+.col-10 { width: 83.333333%; }
+.col-11 { width: 91.666667%; }
+.col-12 { width: 100%; }
+
+/* ===== TABLE LOADING STATE ===== */
+.stats-table.loading {
+    opacity: 0.7;
+    pointer-events: none;
+}
+
+.stats-table.loading tbody::after {
+    content: '';
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: 20px;
+    height: 20px;
+    margin: -10px 0 0 -10px;
+    border: 2px solid var(--gray-300);
+    border-top-color: var(--primary-color);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+/* ===== TABLE EMPTY STATE ===== */
+.stats-table .empty-state {
+    text-align: center;
+    padding: var(--space-8);
+    color: var(--gray-500);
+    font-style: italic;
+}
+
+.stats-table .empty-state::before {
+    content: '📊';
+    display: block;
+    font-size: 2rem;
+    margin-bottom: var(--space-2);
+    opacity: 0.5;
+}
+
+/* ===== TABLE SORTING ===== */
+.stats-table th.sortable {
+    cursor: pointer;
+    user-select: none;
+    position: relative;
+    transition: background-color var(--transition-fast);
+}
+
+.stats-table th.sortable:hover {
+    background-color: var(--gray-200);
+}
+
+.stats-table th.sortable::after {
+    content: '↕️';
+    position: absolute;
+    right: var(--space-2);
+    opacity: 0.5;
+    font-size: 0.7rem;
+}
+
+.stats-table th.sortable.asc::after {
+    content: '↑';
+    opacity: 1;
+}
+
+.stats-table th.sortable.desc::after {
+    content: '↓';
+    opacity: 1;
+}
+
+/* ===== PERFORMANCE METRICS STYLING ===== */
+.stats-table .metric-good {
+    color: var(--success-color);
+    font-weight: 600;
+}
+
+.stats-table .metric-warning {
+    color: var(--warning-color);
+    font-weight: 600;
+}
+
+.stats-table .metric-critical {
+    color: var(--danger-color);
+    font-weight: 600;
+}
+
+.stats-table .metric-unit {
+    color: var(--gray-500);
+    font-weight: normal;
+    font-size: 0.75rem;
+    margin-left: 2px;
+}
+
+/* ===== CAPTION STYLING ===== */
+.stats-table caption {
+    caption-side: bottom;
+    padding: var(--space-3);
+    color: var(--gray-600);
+    font-size: 0.8rem;
+    font-style: italic;
+    text-align: left;
+}

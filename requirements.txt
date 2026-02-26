@@ -1,0 +1,9 @@
+aiortc==1.9.0
+uvloop
+aiohttp
+aiohttp_cors
+Flask
+flask-cors
+nvidia-ml-py
+numpy
+opencv-python
