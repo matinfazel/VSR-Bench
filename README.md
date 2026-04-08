@@ -1,10 +1,10 @@
 # VSR-Bench: An Open-Source Platform for Browser-Native Real-Time VSR Evaluation in WebRTC
 
 **Authors:** Matin Fazel, Abdelhak Bentaleb  
-**Paper:** *VSR-Bench: An Open-Source Platform for Browser-Native Real-Time VSR Evaluation in WebRTC*
+**Paper:** [*VSR-Bench: An Open-Source Platform for Browser-Native Real-Time VSR Evaluation in WebRTC*](https://dl.acm.org/doi/10.1145/3793853.3799813)  
+**Publication:** ACM Multimedia Systems Conference 2026 (MMSys ’26)
 
-<!-- [![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
-[![arXiv](https://img.shields.io/badge/paper-arXiv-orange)](link-to-paper-if-available) -->
+
 
 ## Introduction
 
@@ -19,6 +19,9 @@ This figure provides an overview of the proposed real-time video super-resolutio
 ## Demo
 
 <video src="docs/demo.mp4" controls playsinline style="max-width: 75%; height: auto;"></video>
+
+**Demo Paper:** *More Pixels, Less Bandwidth: A Live Demo of VSR-Bench over WebRTC*  
+[View on ACM Digital Library](https://dl.acm.org/doi/10.1145/3793853.3798197)
 
 
 ## Features
@@ -149,19 +152,32 @@ This project builds upon and is inspired by several excellent open-source effort
 - [Processing video streams on the Web (W3C Geek Week 2022)](
 https://github.com/tidoust/media-tests) — Experimental codebase exploring browser-native video processing pipelines using WebCodecs, WebRTC insertable streams, WebGPU, and timing instrumentation. Portions of the client-side processing and measurement approach were informed by this repository
 
-<!-- ## Citation
+## Citation
 
 If you use this benchmark platform in your research, please cite our paper:
 
 ```bibtex
-@article{your_paper_2024,
-  title={VSR-Bench: An Open-Source Platform for Browser-Native Real-Time VSR Evaluation in WebRTC},
-  author={Your Name},
-  journal={Your Journal/Conference},
-  year={2024}
+@inproceedings{10.1145/3793853.3799813,
+author = {Fazel, Matin and Bentaleb, Abdelhak},
+title = {VSR-Bench: An Open-Source Platform for Browser-Native Real-Time VSR Evaluation in WebRTC},
+year = {2026},
+isbn = {9798400724817},
+publisher = {Association for Computing Machinery},
+address = {New York, NY, USA},
+url = {https://doi.org/10.1145/3793853.3799813},
+doi = {10.1145/3793853.3799813},
+booktitle = {Proceedings of the ACM Multimedia Systems Conference 2026},
+pages = {450–456},
+numpages = {7},
+keywords = {Super-resolution, WebRTC, QoE, WebGPU, WebGL, Benchmark},
+location = {
+},
+series = {MMSys '26}
 }
+
 ```
 
+<!--
 ## License
 
 [Add your license information here]
