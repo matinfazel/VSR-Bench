@@ -18,7 +18,9 @@ This figure provides an overview of the proposed real-time video super-resolutio
 
 ## Demo
 
-<video src="docs/demo.mp4" controls playsinline style="max-width: 75%; height: auto;"></video>
+[![Demo preview](docs/demo_preview.gif)](docs/demo.mp4)
+
+Click the preview to open the full demo video.
 
 **Demo Paper:** *More Pixels, Less Bandwidth: A Live Demo of VSR-Bench over WebRTC*  
 [View on ACM Digital Library](https://dl.acm.org/doi/10.1145/3793853.3798197)
